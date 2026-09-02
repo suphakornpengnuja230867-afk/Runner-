@@ -1,0 +1,1651 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1,user-scalable=no">
+
+<title>Gecko Forest Runner</title>
+
+<style>
+
+/* =========================
+        BASIC
+========================= */
+
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+  margin:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  touch-action:none;
+  font-family:Arial,sans-serif;
+}
+
+
+/* =========================
+        GAME
+========================= */
+
+#game{
+  position:relative;
+
+  width:100vw;
+  height:100vh;
+
+  overflow:hidden;
+
+  background:
+    linear-gradient(
+      #83d9ff 0%,
+      #ccefff 52%,
+      #a8d28a 75%,
+      #6f9a4e 100%
+    );
+
+  transition:background 4s;
+}
+
+
+/* =========================
+        ☀️ SUN
+========================= */
+
+#sun{
+
+  position:absolute;
+
+  width:60px;
+  height:60px;
+
+  top:8%;
+  left:12%;
+
+  border-radius:50%;
+
+  background:#ffd84d;
+
+  box-shadow:
+    0 0 30px #ffe36d;
+
+  z-index:0;
+
+  transition:4s;
+}
+
+
+/* =========================
+        🌙 MOON
+========================= */
+
+#moon{
+
+  position:absolute;
+
+  width:50px;
+  height:50px;
+
+  top:8%;
+  right:12%;
+
+  border-radius:50%;
+
+  background:#f7f7f2;
+
+  box-shadow:
+    0 0 25px white;
+
+  opacity:0;
+
+  z-index:0;
+
+  transition:4s;
+}
+
+
+/* =========================
+        ⭐ STARS
+========================= */
+
+.star{
+
+  position:absolute;
+
+  color:white;
+
+  font-size:13px;
+
+  opacity:0;
+
+  z-index:0;
+
+  transition:4s;
+}
+
+
+/* =========================
+        ☁️ CLOUDS
+========================= */
+
+.cloud{
+
+  position:absolute;
+
+  font-size:45px;
+
+  opacity:.7;
+
+  z-index:2;
+
+  animation:
+    cloudMove linear infinite;
+}
+
+.cloud1{
+  top:13%;
+  left:100%;
+
+  animation-duration:38s;
+}
+
+.cloud2{
+  top:25%;
+  left:120%;
+
+  font-size:35px;
+
+  animation-duration:52s;
+}
+
+.cloud3{
+  top:8%;
+  left:150%;
+
+  font-size:28px;
+
+  animation-duration:65s;
+}
+
+
+@keyframes cloudMove{
+
+  from{
+    transform:translateX(0);
+  }
+
+  to{
+    transform:translateX(-170vw);
+  }
+
+}
+
+
+/* ==================================================
+        🏔️ MOUNTAINS
+        4 ลูก
+        สมดุล
+        เลื่อนไปทางซ้ายนิดหนึ่ง
+================================================== */
+
+.mountains{
+
+  position:absolute;
+
+  left:0;
+
+  top:23%;
+
+  width:100%;
+
+  height:230px;
+
+  z-index:0;
+
+  opacity:.62;
+
+  pointer-events:none;
+}
+
+
+.mountain{
+
+  position:absolute;
+
+  bottom:0;
+
+  width:0;
+  height:0;
+
+  border-left:120px solid transparent;
+
+  border-right:120px solid transparent;
+
+  border-bottom:175px solid #718f8b;
+}
+
+
+/* 🏔️ ลูกที่ 1 */
+
+.mountain1{
+
+  left:-25%;
+
+  transform:scale(.95);
+}
+
+
+/* 🏔️ ลูกที่ 2 */
+
+.mountain2{
+
+  left:5%;
+
+  transform:scale(.95);
+}
+
+
+/* 🏔️ ลูกที่ 3 */
+
+.mountain3{
+
+  left:35%;
+
+  transform:scale(.95);
+}
+
+
+/* 🏔️ ลูกที่ 4 */
+
+.mountain4{
+
+  left:69%;
+
+  transform:scale(.95);
+}
+
+
+/* =========================
+        🌲 FAR FOREST
+========================= */
+
+.farForest{
+
+  position:absolute;
+
+  bottom:75px;
+
+  width:100%;
+
+  height:200px;
+
+  z-index:1;
+
+  opacity:.5;
+
+  white-space:nowrap;
+
+  font-size:68px;
+
+  letter-spacing:18px;
+}
+
+
+/* =========================
+        🌳 NEAR FOREST
+========================= */
+
+.forest{
+
+  position:absolute;
+
+  bottom:75px;
+
+  width:100%;
+
+  height:135px;
+
+  z-index:3;
+
+  white-space:nowrap;
+
+  font-size:58px;
+
+  letter-spacing:8px;
+
+  opacity:.88;
+}
+
+
+/* =========================
+        🌿 GRASS
+========================= */
+
+.grass{
+
+  position:absolute;
+
+  bottom:82px;
+
+  font-size:20px;
+
+  z-index:6;
+
+  opacity:.8;
+}
+
+
+/* =========================
+        GROUND
+========================= */
+
+#ground{
+
+  position:absolute;
+
+  bottom:75px;
+
+  width:100%;
+
+  height:7px;
+
+  background:#40382b;
+
+  z-index:5;
+}
+
+
+/* =========================
+        SCORE
+========================= */
+
+#score{
+
+  position:absolute;
+
+  top:18px;
+
+  right:25px;
+
+  font-size:19px;
+
+  font-weight:bold;
+
+  z-index:30;
+
+  color:#333;
+
+  transition:2s;
+}
+
+
+/* ==================================================
+        🦎 PLAYER
+        ขนาดเล็กลง
+================================================== */
+
+#player{
+
+  position:absolute;
+
+  left:8%;
+
+  bottom:80px;
+
+  width:100px;
+
+  height:65px;
+
+  z-index:10;
+
+  transform-origin:center bottom;
+}
+
+
+/* =========================
+        TAIL
+========================= */
+
+.tail{
+
+  position:absolute;
+
+  left:-7px;
+
+  top:29px;
+
+  width:52px;
+
+  height:16px;
+
+  border-radius:
+    80% 20% 20% 80%;
+
+  background:
+    linear-gradient(
+      #69b843,
+      #347d2d
+    );
+
+  border:2px solid #244d20;
+
+  transform:rotate(7deg);
+
+  transform-origin:right center;
+}
+
+
+/* =========================
+        BODY
+========================= */
+
+.body{
+
+  position:absolute;
+
+  left:24px;
+
+  top:20px;
+
+  width:58px;
+
+  height:29px;
+
+  border-radius:50%;
+
+  background:
+    linear-gradient(
+      #6ec347,
+      #3f8b31
+    );
+
+  border:2px solid #244d20;
+}
+
+
+/* =========================
+        BELLY
+========================= */
+
+.belly{
+
+  position:absolute;
+
+  left:33px;
+
+  top:39px;
+
+  width:40px;
+
+  height:10px;
+
+  border-radius:50%;
+
+  background:#ddd78c;
+}
+
+
+/* =========================
+        HEAD
+========================= */
+
+.head{
+
+  position:absolute;
+
+  left:63px;
+
+  top:8px;
+
+  width:35px;
+
+  height:33px;
+
+  border-radius:
+    60% 55% 45% 45%;
+
+  background:#72c74a;
+
+  border:2px solid #244d20;
+
+  z-index:5;
+}
+
+
+/* =========================
+        EYES
+========================= */
+
+.eye{
+
+  position:absolute;
+
+  width:11px;
+
+  height:11px;
+
+  border-radius:50%;
+
+  background:white;
+
+  border:2px solid #222;
+
+  top:5px;
+}
+
+.eye1{
+  right:16px;
+}
+
+.eye2{
+  right:4px;
+}
+
+.eye::after{
+
+  content:"";
+
+  position:absolute;
+
+  width:4px;
+
+  height:4px;
+
+  border-radius:50%;
+
+  background:#111;
+
+  left:3px;
+
+  top:3px;
+}
+
+
+/* =========================
+        MOUTH
+========================= */
+
+.mouth{
+
+  position:absolute;
+
+  right:2px;
+
+  bottom:7px;
+
+  width:18px;
+
+  height:6px;
+
+  border-bottom:
+    2px solid #263c20;
+
+  border-radius:50%;
+}
+
+
+/* =========================
+        LEGS
+========================= */
+
+.leg{
+
+  position:absolute;
+
+  width:10px;
+
+  height:27px;
+
+  border-radius:10px;
+
+  background:#4b9a32;
+
+  border:2px solid #244d20;
+
+  transform-origin:top center;
+
+  z-index:2;
+}
+
+
+.leg::after{
+
+  content:"";
+
+  position:absolute;
+
+  width:17px;
+
+  height:7px;
+
+  border-radius:50%;
+
+  background:#3c7d29;
+
+  left:-6px;
+
+  bottom:-4px;
+}
+
+
+/* ขาหลัง */
+
+.back1{
+
+  left:28px;
+
+  top:40px;
+}
+
+.back2{
+
+  left:42px;
+
+  top:40px;
+}
+
+
+/* ขาหน้า */
+
+.front1{
+
+  left:65px;
+
+  top:39px;
+}
+
+.front2{
+
+  left:78px;
+
+  top:40px;
+}
+
+
+/* =========================
+        🧴 POISON
+        ขนาดเล็กลง
+========================= */
+
+.poison{
+
+  position:absolute;
+
+  bottom:78px;
+
+  width:44px;
+
+  height:57px;
+
+  z-index:9;
+}
+
+
+/* ฝาขวด */
+
+.poison-cap{
+
+  position:absolute;
+
+  left:12px;
+
+  top:0;
+
+  width:20px;
+
+  height:10px;
+
+  background:#d92828;
+
+  border:
+    2px solid #781313;
+
+  border-radius:
+    4px 4px 2px 2px;
+}
+
+
+/* คอขวด */
+
+.poison-neck{
+
+  position:absolute;
+
+  left:15px;
+
+  top:9px;
+
+  width:15px;
+
+  height:10px;
+
+  background:#eee;
+
+  border-left:
+    2px solid #777;
+
+  border-right:
+    2px solid #777;
+}
+
+
+/* ตัวขวด */
+
+.poison-bottle{
+
+  position:absolute;
+
+  left:5px;
+
+  bottom:0;
+
+  width:35px;
+
+  height:43px;
+
+  border-radius:
+    8px 8px 10px 10px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #cfcfcf,
+      #fff 45%,
+      #c7c7c7
+    );
+
+  border:
+    2px solid #555;
+
+  box-shadow:
+
+    inset 3px 0 7px
+      rgba(255,255,255,.8),
+
+    2px 3px 4px
+      rgba(0,0,0,.25);
+}
+
+
+/* ฉลาก */
+
+.poison-label{
+
+  position:absolute;
+
+  left:3px;
+
+  top:11px;
+
+  width:25px;
+
+  height:21px;
+
+  background:#f5d447;
+
+  border:
+    2px solid #333;
+
+  border-radius:3px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  font-size:14px;
+
+  line-height:1;
+}
+
+
+/* =========================
+        MENU
+========================= */
+
+#menu{
+
+  position:absolute;
+
+  inset:0;
+
+  display:flex;
+
+  flex-direction:column;
+
+  align-items:center;
+
+  justify-content:center;
+
+  background:
+    rgba(255,255,255,.18);
+
+  z-index:50;
+
+  text-align:center;
+}
+
+
+#menu h1{
+
+  font-size:34px;
+
+  margin:0;
+
+  text-shadow:
+    2px 2px white;
+}
+
+
+#menu p{
+
+  font-size:17px;
+}
+
+
+button{
+
+  margin-top:15px;
+
+  padding:
+    13px 32px;
+
+  border:none;
+
+  border-radius:14px;
+
+  background:#333;
+
+  color:white;
+
+  font-size:19px;
+
+  font-weight:bold;
+}
+
+
+/* =========================
+        🌙 NIGHT
+========================= */
+
+#game.night{
+
+  background:
+    linear-gradient(
+      #071021 0%,
+      #10203b 38%,
+      #243a50 65%,
+      #58705c 100%
+    );
+}
+
+.night #sun{
+  opacity:0;
+}
+
+.night #moon{
+  opacity:1;
+}
+
+.night .star{
+  opacity:1;
+}
+
+.night .cloud{
+  opacity:.18;
+}
+
+.night .mountains{
+  opacity:.28;
+}
+
+.night .farForest{
+  opacity:.65;
+}
+
+.night .forest{
+  opacity:.75;
+}
+
+.night #ground{
+  background:#302d28;
+}
+
+.night #score{
+  color:white;
+}
+
+.night #menu{
+  background:
+    rgba(0,0,0,.25);
+}
+
+.night #menu h1{
+
+  color:white;
+
+  text-shadow:
+    2px 2px #000;
+}
+
+.night #menu p{
+  color:#ddd;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div id="game">
+
+
+<!-- ☀️ -->
+
+<div id="sun"></div>
+
+
+<!-- 🌙 -->
+
+<div id="moon"></div>
+
+
+<!-- ⭐ STARS -->
+
+<div class="star"
+style="top:12%;left:10%">
+✦
+</div>
+
+<div class="star"
+style="top:20%;left:28%">
+✦
+</div>
+
+<div class="star"
+style="top:10%;left:48%">
+✦
+</div>
+
+<div class="star"
+style="top:25%;left:70%">
+✦
+</div>
+
+<div class="star"
+style="top:15%;left:88%">
+✦
+</div>
+
+<div class="star"
+style="top:35%;left:45%">
+✦
+</div>
+
+
+<!-- ☁️ CLOUDS -->
+
+<div class="cloud cloud1">
+☁️
+</div>
+
+<div class="cloud cloud2">
+☁️
+</div>
+
+<div class="cloud cloud3">
+☁️
+</div>
+
+
+<!-- =========================
+     🏔️ MOUNTAINS 4
+========================= -->
+
+<div class="mountains">
+
+  <div class="mountain mountain1"></div>
+
+  <div class="mountain mountain2"></div>
+
+  <div class="mountain mountain3"></div>
+
+  <div class="mountain mountain4"></div>
+
+</div>
+
+
+<!-- =========================
+     🌲 FAR FOREST
+========================= -->
+
+<div class="farForest">
+
+🌲 🌲 🌲 🌲 🌲 🌲 🌲 🌲 🌲 🌲 🌲
+
+</div>
+
+
+<!-- =========================
+     🌳 NEAR FOREST
+========================= -->
+
+<div class="forest">
+
+🌳 🌲 🌳 🌲 🌳 🌲 🌳 🌲
+
+</div>
+
+
+<!-- =========================
+     🌿 GRASS
+========================= -->
+
+<div class="grass"
+style="left:5%">
+🌿
+</div>
+
+<div class="grass"
+style="left:20%">
+🌿
+</div>
+
+<div class="grass"
+style="left:35%">
+🌿
+</div>
+
+<div class="grass"
+style="left:55%">
+🌿
+</div>
+
+<div class="grass"
+style="left:75%">
+🌿
+</div>
+
+<div class="grass"
+style="left:92%">
+🌿
+</div>
+
+
+<!-- GROUND -->
+
+<div id="ground"></div>
+
+
+<!-- SCORE -->
+
+<div id="score">
+คะแนน: 0
+</div>
+
+
+<!-- =========================
+     🦎 GECKO
+========================= -->
+
+<div id="player">
+
+  <div class="tail"></div>
+
+  <div class="body"></div>
+
+  <div class="belly"></div>
+
+  <div class="leg back1"></div>
+
+  <div class="leg back2"></div>
+
+  <div class="leg front1"></div>
+
+  <div class="leg front2"></div>
+
+  <div class="head">
+
+    <div class="eye eye1"></div>
+
+    <div class="eye eye2"></div>
+
+    <div class="mouth"></div>
+
+  </div>
+
+</div>
+
+
+<!-- MENU -->
+
+<div id="menu">
+
+  <h1 id="title">
+    🦎 Gecko Runner
+  </h1>
+
+  <p id="msg">
+    แตะหน้าจอเพื่อกระโดดข้ามขวดยา
+  </p>
+
+  <button id="start">
+    เริ่มเกม
+  </button>
+
+</div>
+
+
+</div>
+
+
+<script>
+
+/* =========================
+        VARIABLES
+========================= */
+
+let playing=false;
+
+let playerY=0;
+
+let velocity=0;
+
+let score=0;
+
+let speed=2.8;
+
+let obstacleTimer=0;
+
+let lastTime=0;
+
+let dayTimer=0;
+
+
+/* =========================
+        ELEMENTS
+========================= */
+
+const game=
+document.getElementById("game");
+
+const player=
+document.getElementById("player");
+
+const scoreText=
+document.getElementById("score");
+
+const menu=
+document.getElementById("menu");
+
+const startButton=
+document.getElementById("start");
+
+const title=
+document.getElementById("title");
+
+const message=
+document.getElementById("msg");
+
+
+/* =========================
+        LEGS
+========================= */
+
+const legs=[
+
+  document.querySelector(".front1"),
+
+  document.querySelector(".front2"),
+
+  document.querySelector(".back1"),
+
+  document.querySelector(".back2")
+
+];
+
+
+/* =========================
+        START GAME
+========================= */
+
+startButton.addEventListener(
+"click",
+function(){
+
+  playing=true;
+
+  playerY=0;
+
+  velocity=0;
+
+  score=0;
+
+  speed=2.8;
+
+  obstacleTimer=0;
+
+  dayTimer=0;
+
+  game.classList.remove("night");
+
+  scoreText.textContent=
+  "คะแนน: 0";
+
+  menu.style.display=
+  "none";
+
+
+  document
+  .querySelectorAll(".poison")
+  .forEach(function(item){
+
+    item.remove();
+
+  });
+
+
+  lastTime=
+  performance.now();
+
+
+  requestAnimationFrame(loop);
+
+});
+
+
+/* =========================
+        JUMP
+========================= */
+
+function jump(){
+
+  if(!playing){
+    return;
+  }
+
+  if(playerY===0){
+
+    velocity=14;
+
+  }
+
+}
+
+
+/* =========================
+        TOUCH
+========================= */
+
+document.addEventListener(
+"touchstart",
+function(e){
+
+  if(e.target===startButton){
+    return;
+  }
+
+  jump();
+
+},
+{passive:true}
+);
+
+
+/* =========================
+        MOUSE
+========================= */
+
+document.addEventListener(
+"mousedown",
+function(e){
+
+  if(e.target===startButton){
+    return;
+  }
+
+  jump();
+
+});
+
+
+/* =========================
+        GAME LOOP
+========================= */
+
+function loop(time){
+
+  if(!playing){
+    return;
+  }
+
+
+  let delta=
+  (time-lastTime)/16.67;
+
+
+  lastTime=time;
+
+
+  delta=
+  Math.min(delta,2);
+
+
+  /* =====================
+       JUMP PHYSICS
+  ===================== */
+
+  playerY+=
+  velocity*delta;
+
+
+  velocity-=
+  0.8*delta;
+
+
+  if(playerY<=0){
+
+    playerY=0;
+
+    velocity=0;
+
+  }
+
+
+  /* =====================
+       LEG ANIMATION
+  ===================== */
+
+  let run=
+  Math.sin(time/90);
+
+
+  if(playerY===0){
+
+    legs[0].style.transform=
+    "rotate("+run*35+"deg)";
+
+    legs[1].style.transform=
+    "rotate("+(-run*35)+"deg)";
+
+    legs[2].style.transform=
+    "rotate("+(-run*28)+"deg)";
+
+    legs[3].style.transform=
+    "rotate("+run*28+"deg)";
+
+  }
+
+  else{
+
+    legs[0].style.transform=
+    "rotate(-30deg)";
+
+    legs[1].style.transform=
+    "rotate(30deg)";
+
+    legs[2].style.transform=
+    "rotate(25deg)";
+
+    legs[3].style.transform=
+    "rotate(-25deg)";
+
+  }
+
+
+  /* =====================
+       PLAYER POSITION
+  ===================== */
+
+  player.style.transform=
+  "translateY("+
+  (-playerY)+
+  "px)";
+
+
+  /* =====================
+       SCORE
+  ===================== */
+
+  score+=delta;
+
+
+  scoreText.textContent=
+  "คะแนน: "+
+  Math.floor(score/10);
+
+
+  /* =====================
+       SPEED
+  ===================== */
+
+  speed=
+  Math.min(
+    2.8+score/1500,
+    8
+  );
+
+
+  /* =====================
+       DAY / NIGHT
+  ===================== */
+
+  dayTimer+=delta;
+
+
+  if(dayTimer>1800){
+
+    game.classList.toggle("night");
+
+    dayTimer=0;
+
+  }
+
+
+  /* =====================
+       OBSTACLE
+  ===================== */
+
+  obstacleTimer+=delta;
+
+
+  let spawn=
+  Math.max(
+    135,
+    175-speed*4
+  );
+
+
+  if(obstacleTimer>spawn){
+
+    createPoison();
+
+    obstacleTimer=0;
+
+  }
+
+
+  requestAnimationFrame(loop);
+
+}
+
+
+/* =========================
+        CREATE POISON
+========================= */
+
+function createPoison(){
+
+  const poison=
+  document.createElement("div");
+
+
+  poison.className=
+  "poison";
+
+
+  poison.innerHTML=
+
+  '<div class="poison-cap"></div>'+
+
+  '<div class="poison-neck"></div>'+
+
+  '<div class="poison-bottle">'+
+
+  '<div class="poison-label">☠</div>'+
+
+  '</div>';
+
+
+  game.appendChild(poison);
+
+
+  /* เริ่มจากไกล */
+
+  let x=
+  window.innerWidth+220;
+
+
+  function move(){
+
+    if(!playing){
+
+      poison.remove();
+
+      return;
+
+    }
+
+
+    x-=speed;
+
+
+    poison.style.left=
+    x+"px";
+
+
+    /* =====================
+         COLLISION
+    ===================== */
+
+    const p=
+    player.getBoundingClientRect();
+
+
+    const c=
+    poison.getBoundingClientRect();
+
+
+    const playerBox={
+
+      left:p.left+28,
+
+      right:p.right-20,
+
+      top:p.top+15,
+
+      bottom:p.bottom-6
+
+    };
+
+
+    const poisonBox={
+
+      left:c.left+8,
+
+      right:c.right-8,
+
+      top:c.top+7,
+
+      bottom:c.bottom-4
+
+    };
+
+
+    if(
+
+      playerBox.right>
+      poisonBox.left &&
+
+      playerBox.left<
+      poisonBox.right &&
+
+      playerBox.bottom>
+      poisonBox.top &&
+
+      playerBox.top<
+      poisonBox.bottom
+
+    ){
+
+      gameOver();
+
+      return;
+
+    }
+
+
+    /* =====================
+        REMOVE
+    ===================== */
+
+    if(x<-130){
+
+      poison.remove();
+
+      return;
+
+    }
+
+
+    requestAnimationFrame(move);
+
+  }
+
+
+  move();
+
+}
+
+
+/* =========================
+        GAME OVER
+========================= */
+
+function gameOver(){
+
+  playing=false;
+
+
+  title.textContent=
+  "💥 จิ้งจกชนขวดยา!";
+
+
+  message.textContent=
+  "คะแนน: "+
+  Math.floor(score/10);
+
+
+  startButton.textContent=
+  "เล่นอีกครั้ง";
+
+
+  menu.style.display=
+  "flex";
+
+}
+
+</script>
+
+</body>
+</html>
